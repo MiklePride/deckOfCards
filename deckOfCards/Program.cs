@@ -25,6 +25,7 @@
                     break;
                 case "2":
                     player.ShowInfoCards();
+                    isWork = false;
                     break;
                 default:
                     Console.WriteLine("Такой команды нет!");
