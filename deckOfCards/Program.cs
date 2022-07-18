@@ -1,40 +1,44 @@
-﻿Player player = new Player();
-Deck deck = new Deck();
-
-bool isWork = true;
-string userInput;
-
-Console.WriteLine("Добро пожаловать за карточный стол!");
-
-while (isWork)
+﻿class program
 {
-    Console.WriteLine("Выберите действие:\n" +
-    "1. Взять одну карту\n" +
-    "2. Завершить игру и показать результат.");
-
-    userInput = Console.ReadLine();
-
-    switch (userInput)
+    static void Main(string[] args)
     {
-        case "1":
-            player.GetCard(deck, ref isWork);
-            break;
-        case "2":
-            player.ShowInfoCards();
-            break;
-        default:
-            Console.WriteLine("Такой команды нет!");
-            break;
+        Player player = new Player();
+        Deck deck = new Deck();
+
+        bool isWork = true;
+        string userInput;
+
+        Console.WriteLine("Добро пожаловать за карточный стол!");
+
+        while (isWork)
+        {
+            Console.WriteLine("Выберите действие:\n" +
+            "1. Взять одну карту\n" +
+            "2. Завершить игру и показать результат.");
+
+            userInput = Console.ReadLine();
+
+            switch (userInput)
+            {
+                case "1":
+                    player.TakeCard(deck, ref isWork);
+                    break;
+                case "2":
+                    player.ShowInfoCards();
+                    break;
+                default:
+                    Console.WriteLine("Такой команды нет!");
+                    break;
+            }
+        }
     }
 }
-
-
 
 class Player
 {
     private List<Card> _cardsInHand = new List<Card>();
 
-    public void GetCard(Deck cards, ref bool isWork)
+    public void TakeCard(Deck cards, ref bool isWork)
     {
         Card card = cards.GiveCard(ref isWork);
         _cardsInHand.Add(card);
@@ -48,23 +52,18 @@ class Player
 
     public void ShowInfoCards()
     {
-        int count = 0;
         foreach (Card card in _cardsInHand)
         {
-            count++;
             card.ShowInfo();
-
-            if (count % 4 == 0)
-                Console.WriteLine();
         }
     }
 }
 
 class Deck
 {
-    private Stack<Card> _cards = new Stack<Card>(NUMBER_OF_CARDS);
+    private const int NumberOfCards = 52;
 
-    private const int NUMBER_OF_CARDS = 52;
+    private Stack<Card> _cards = new Stack<Card>(NumberOfCards);
 
     public Deck()
     {
@@ -93,17 +92,17 @@ class Deck
 
     private void Shuffle()
     {
-        Card[] cards = new Card[NUMBER_OF_CARDS];
+        Card[] cards = new Card[NumberOfCards];
         Random random = new Random();
 
-        for (int i = 0; i < NUMBER_OF_CARDS; i++)
+        for (int i = 0; i < NumberOfCards; i++)
         {
             cards[i] = _cards.Pop();
         }
 
         for (int i = 0; i < cards.Length; i++)
         {
-            int swappingCardIndex = random.Next(0, NUMBER_OF_CARDS);
+            int swappingCardIndex = random.Next(0, NumberOfCards);
 
             Card temp = cards[i];
             cards[i] = cards[swappingCardIndex];
